@@ -6,22 +6,52 @@ document.addEventListener('DOMContentLoaded', function() {
     const hora = document.getElementById('horaTarea');
     const buscadorTareas = document.getElementById('buscadorTareas');
     const selectFiltrarTareas  = document.getElementById('filtrarTareas');
+   
+
+    function actualizarUI() {
+        const estaLogueado = localStorage.getItem('emailLogueado') !== null;
+        const liUsuario = document.getElementById('liUsuario');
+        const liLogout = document.getElementById('liLogout');
+        const botonesAccion = document.querySelectorAll('.btnConfirmar, .btnCancelar, .btnEditar, .btnEliminar');
+
+        if (estaLogueado) {
+            liUsuario.style.display = 'block'; // Mostrar liUsuario
+            liUsuario.textContent = `Hola ${localStorage.getItem('emailLogueado')}`;
+            liLogout.textContent = 'Logout';
+            liLogout.href = '#';
     
-
-    const emailLogueado = localStorage.getItem('emailLogueado');
-
-    if (emailLogueado) {
-        document.getElementById('liUsuario').textContent = `Hola ${emailLogueado} `;
+            botonesAccion.forEach(boton => {
+                boton.disabled = false;
+            });
+        } else {
+            liUsuario.style.display = 'none'; // Ocultar liUsuario
+            liLogout.textContent = 'Iniciar sesión';
+            liLogout.href = 'login.html';
+    
+            botonesAccion.forEach(boton => {
+                boton.disabled = true;
+            });
+        }
     }
+    liLogout.addEventListener('click', function() {
 
-     document.getElementById('liLogout').addEventListener('click', function () {
         event.preventDefault();
-
-        localStorage.removeItem('emailLogueado');
-
-            setTimeout(() =>{
-                window.location.href ="login.html" }, 1000);
-
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: '¿Deseas cerrar sesión?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, cerrar sesión',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                localStorage.removeItem('emailLogueado');
+                window.location.href = "login.html";
+            }
+        });
+        actualizarUI();
     });
 
     btnCrearTarea.disabled = true;
@@ -173,6 +203,8 @@ document.addEventListener('DOMContentLoaded', function() {
             tablaTareas.appendChild(fila);
         });
 
+        actualizarUI();
+
         const eliminar = document.querySelectorAll('.btnEliminar');
         const editar = document.querySelectorAll('.btnEditar');
         const confirmar = document.querySelectorAll('.btnConfirmar');
@@ -273,5 +305,5 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     showTareas();
-
+    actualizarUI();
 });
