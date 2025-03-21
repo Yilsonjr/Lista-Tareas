@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Task It</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+	<script src="js/bootstrap.bundle.min.js"></script>
+  <script src="js/index.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body class= "bg-light"> 
+	<header class="d-flex flex-wrap justify-content-center py-3 border-bottom bg-dark">
+      <div class="navbarNav d-flex align-items-center">
+        <ul class="nav nav-pills">
+          <li class="nav-item"><a href="about.html" class="nav-link text-white" aria-current="page">Quienes somos? <i class="bi bi-people-fill"></i></a></li>
+          <li class="nav-item"><a href="#" class = "nav-link text-white">Inicia con tus tareas <i class="bi bi-alarm-fill"></i></a></li>
+
+          <li class="nav-item" ><a href="#" id="liUsuario" class = "nav-link text-white">Hola [Usuario] <i class="bi bi-person-fill"></i></a></li>
+          <li class="nav-item" id="liLogout"><a href="#" class = "nav-link text-white">Logout <i class="bi bi-box-arrow-right"></i></a></li>
+        </ul>
+      </div>
+  </header>
+  <div class="container py-4">
+    
+    <div class="container mt-5">
+      <div class="row">
+
+        <div class="col-md-3">
+          <div class="card p-3 shadow">
+            <h2 class=" text-secondary text-center mb-3"> Crear Tarea</h2>
+
+            <form>
+              <div class="form-floating mb-3">
+                <label class="form-label p-2">Titulo</label>
+                <input type="text" class="form-control" id="tituloTarea">
+              </div>
+
+              <div class="form-floating mb-3">
+                <label class="form-label p-2">Descripcion</label>
+                <textarea class="form-control" rows="2" id="descripcionTarea"></textarea>
+              </div>
+
+              <div class="form-floating mb-3">
+                <input type="date" class="form-control" id="fechaTarea">
+                <label>Fecha</label>
+              </div>
+
+              <div class="form-floating mb-3">
+                <input type="time" class="form-control" id="horaTarea">
+                <label>Hora</label>    
+              </div>
+
+              <button type="submit" id="btnCrearTarea" class="btn btn-success btn-lg w-100" > <i class="bi bi-pencil" ></i>Crear Tarea </button>
+            </form>
+
+          </div>
+        </div>
+
+        <div class="col-md-9">
+          <div class="card p-3">
+            <h2 class="mb-4 text-secondary text-center"> Listado de Tareas</h2>
+
+            <p class="text-warning fs-5 text-center"><i class="bi bi-exclamation-triangle-fill"></i>Las tareas se listan dependiendo la fecha programada.</p>
+
+            <div class="row mb-2">
+              <div class="col-md-8 mb-3">
+                <input type="text" class="form-control" id="buscadorTareas" placeholder="Buscar Tareas...">
+              </div>
+              <div class="col-md-4">
+                <select class="form-select" id="filtrarTareas">
+                  <option value="Todos">Todos</option>
+                  <option value="Pendiente">Pendiente</option>
+                  <option value="Completada">Completada</option>
+                  <option value="Cancelada">Cancelada</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row table-responsive">
+              <div class="col-md-12">
+                <table class="table table-bordered">
+                  <thead class="table-primary">
+                    <tr>
+                      <th class="text-center">No.</th>
+                      <th class="text-center">Titulo</th>
+                      <th class="text-center">Descripcion</th>
+                      <th class="text-center">Programada</th>
+                      <th class="text-center">Estado</th>
+                      <th class="text-center">Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tablaTareas">
+                    
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+</body>
+</html>

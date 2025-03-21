@@ -1,0 +1,8 @@
+.list-group-item{
+    transition: transform 0.7s ease; 
+}
+.list-group-item:hover{
+    transform: scale(1.1);
+    transition: all 0.8s ease;
+    cursor: pointer;
+}
