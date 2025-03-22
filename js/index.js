@@ -15,16 +15,47 @@ document.addEventListener('DOMContentLoaded', function() {
         const botonesAccion = document.querySelectorAll('.btnConfirmar, .btnCancelar, .btnEditar, .btnEliminar');
 
         if (estaLogueado) {
-            liUsuario.style.display = 'block'; // Mostrar liUsuario
+            liUsuario.style.display = 'block'; 
             liUsuario.textContent = `Hola ${localStorage.getItem('emailLogueado')}`;
             liLogout.textContent = 'Logout';
             liLogout.href = '#';
+
+            liLogout.addEventListener('click', function() {
+
+                event.preventDefault();
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: '¿Deseas cerrar sesión?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sí, cerrar sesión',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        localStorage.removeItem('emailLogueado');
+                        window.location.href = "login.html";
+                    }
+                });
+                actualizarUI();
+            });
     
             botonesAccion.forEach(boton => {
-                boton.disabled = false;
+                if (boton.classList.contains('btnEliminar')) {
+                    boton.disabled = false; 
+                } else {
+                    const index = parseInt(boton.dataset.index);
+                    const tarea = JSON.parse(localStorage.getItem('tareas'))[index];
+                    if (tarea && tarea.estado !== 'Completada' && tarea.estado !== 'Cancelada') {
+                        boton.disabled = false;
+                    } else {
+                        boton.disabled = true;
+                    }
+                }
             });
         } else {
-            liUsuario.style.display = 'none'; // Ocultar liUsuario
+            liUsuario.style.display = 'none'; 
             liLogout.textContent = 'Iniciar sesión';
             liLogout.href = 'login.html';
     
@@ -33,26 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     }
-    liLogout.addEventListener('click', function() {
-
-        event.preventDefault();
-        Swal.fire({
-            title: '¿Estás seguro?',
-            text: '¿Deseas cerrar sesión?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Sí, cerrar sesión',
-            cancelButtonText: 'Cancelar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                localStorage.removeItem('emailLogueado');
-                window.location.href = "login.html";
-            }
-        });
-        actualizarUI();
-    });
+    
 
     btnCrearTarea.disabled = true;
 
@@ -172,6 +184,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const tareas = tareasMostrar || JSON.parse(localStorage.getItem('tareas')) || [];
 
+        
         tareas.forEach((tarea, index) =>{
             const fila = document.createElement('tr');
             let colorFondo; // Variable para almacenar el color de fondo
@@ -210,6 +223,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const confirmar = document.querySelectorAll('.btnConfirmar');
         const cancelar = document.querySelectorAll('.btnCancelar');
 
+      
+        
         editar.forEach(boton => {
             boton.addEventListener('click', function(){
                 const index = parseInt(this.dataset.index);
